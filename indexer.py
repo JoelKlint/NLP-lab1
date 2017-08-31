@@ -65,9 +65,5 @@ def create_master_index(dir):
                 master_index[word][filename] = index[word]
             else:
                 master_index[word] = {filename: index[word]}
-
-
-
-
-
-create_master_index('Selma')
+    
+    pickle.dump(master_index, open(dir+'/master_index.idx', 'wb'))
