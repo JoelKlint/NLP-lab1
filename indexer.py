@@ -35,7 +35,7 @@ def create_index(filename):
         string += letter.lower()
     
     index = {}
-    words = regex.finditer('\w+', string)
+    words = regex.finditer(r'\p{L}+', string)
     for word in words:
         w = word.group()
         if w in index:
