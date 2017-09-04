@@ -60,15 +60,13 @@ def create_master_index(dir):
 
     # Create all unique indicies
     filenames = get_files(dir, '.txt')
-    # filepaths = list(map(lambda f: dir + '/' + f, filenames))
     for filename in filenames:
         create_index(dir+'/'+filename)
-
 
     master_index = {}
 
     filenames = get_files(dir, '.idx')
-    # filepaths = list(map(lambda f: dir + '/' + f, filenames))
+    filenames.remove('master_index.idx') if 'master_index.idx' in filenames else ''
     for filename in filenames:
         txt_file = change_file_extension(filename, 'txt')
         index = pickle.load( open(dir+'/'+filename, 'rb') )
@@ -84,7 +82,6 @@ def calc_tf_idf(master_index, filenames):
     # Bygg word_count
     tot_word_count = {}
     for word, word_index in master_index.items():
-
         for filename, file_index in word_index.items():
             if filename not in tot_word_count:
                 tot_word_count[filename] = 0
@@ -156,11 +153,10 @@ def interpret_cosine_matrix(cosine_matrix, filenames):
     print("Max value is {}".format(max_val))
     print("Documents: {} and {}".format(filenames[max_x], filenames[max_y]))
 
-
-
 create_master_index('Selma')
 master_index = pickle.load( open('Selma/master_index.idx', 'rb') )
 (word_array, corpus_arrays) = calc_tf_idf(master_index, get_files('Selma', 'txt'))
 cosine_matrix = cosine_similarity_matrix(corpus_arrays)
 interpret_cosine_matrix(cosine_matrix, get_files('Selma', 'txt'))
+
 
